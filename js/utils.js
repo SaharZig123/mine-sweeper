@@ -58,26 +58,25 @@ function getRandomColor() {
 function createMat(ROWS, COLS) {
   var mat = []
   for (var i = 0; i < ROWS; i++) {
-      var row = []
-      for (var j = 0; j < COLS; j++) {
-          row.push('')
-      }
-      mat.push(row)
+    var row = []
+    for (var j = 0; j < COLS; j++) {
+      row.push('')
+    }
+    mat.push(row)
   }
   return mat
 }
 
 function countNeighbors(cellI, cellJ, mat) {
-  var neighborsCount = 0;
+  var neighborsCount = 0
   for (var i = cellI - 1; i <= cellI + 1; i++) {
-      if (i < 0 || i >= mat.length) continue;
-      for (var j = cellJ - 1; j <= cellJ + 1; j++) {
-          if (j < 0 || j >= mat[i].length) continue;
-          if (i === cellI && j === cellJ) continue;
-          if (mat[i][j] === LIFE || mat[i][j] === SUPER_LIFE) neighborsCount++;
-          // if (mat[i][j]) neighborsCount++;
-      }
+    if (i < 0 || i >= mat.length) continue
+    for (var j = cellJ - 1; j <= cellJ + 1; j++) {
+      if (j < 0 || j >= mat[i].length) continue
+      if (i === cellI && j === cellJ) continue
+      if (mat[i][j] === LIFE || mat[i][j] === SUPER_LIFE) neighborsCount++
+      // if (mat[i][j]) neighborsCount++;
+    }
   }
-  return neighborsCount;
+  return neighborsCount
 }
-

@@ -11,6 +11,8 @@ var gGame = {
   showenCount: 0,
   markedCount: 0,
 }
+var gFlagCounter = 0
+var isOnInterval
 
 function initGame() {
   buildBoard(gLevel.size, gboard)
@@ -69,6 +71,7 @@ function renderBoard(board) {
 
 function cellClicked(elCell) {
   var cellPos = getCellPosition(elCell.id)
+  if (gboard[cellPos.i][cellPos.j].isMarked) return
   gboard[cellPos.i][cellPos.j].isShowen = true
   elCell.classList.remove('.hide')
   if (gboard[cellPos.i][cellPos.j].isMine) {
@@ -88,14 +91,16 @@ function cellClicked(elCell) {
 }
 
 function checkGameOver(board) {
-  var rightFlagCounter=0
+  var rightFlagCounter = 0
   for (var i = 0; i < board.length; i++) {
     for (var j = 0; j < board.length; j++) {
       if (board[i][j].isMarked && board[i][j].isMine) rightFlagCounter++
-      if(rightFlagCounter===gGame.mines) alert('You win!')
+      if (rightFlagCounter === gLevel.mines) {
+        var elH1 = document.querySelector('h2')
+        elH1.style.opacity = 100
+      }
     }
   }
-  
 }
 
 function expandShowen(board, cellI, cellJ) {
@@ -128,19 +133,19 @@ function getRandomMineCell(board) {
 }
 
 function markedCell(ev, elCell) {
-  var flagCounter = 0
-  var position = getCellPosition(elCell.id)
   if (ev.which === 3) {
+    var position = getCellPosition(elCell.id)
+    if (gboard[position.i][position.j].isShowen) return
     if (gboard[position.i][position.j].isMarked) {
       gboard[position.i][position.j].isMarked = false
       elCell.innerText = ' '
-      flagCounter--
+      gFlagCounter--
     } else {
       gboard[position.i][position.j].isMarked = true
       elCell.innerText = MARKED_CELL
-      flagCounter++
+      gFlagCounter++
     }
-    if (flagCounter === gGame.mines) {
+    if (gFlagCounter === gLevel.mines) {
       checkGameOver(gboard)
     }
   }
@@ -150,4 +155,11 @@ function getCellPosition(strCellId) {
   var parts = strCellId.split('-')
   var pos = { i: +parts[1], j: +parts[2] }
   return pos
+}
+
+function getLevel(elBtn) {
+  gLevel.size = elBtn.getAttribute('data-size')
+  gLevel.mines = elBtn.getAttribute('data-mines')
+  buildBoard(gLevel.size, gboard)
+  renderBoard(gboard)
 }
