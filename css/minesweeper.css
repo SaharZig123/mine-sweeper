@@ -1,21 +1,141 @@
+body {
+  text-align: center;
+  background-size: contain;
+  font-family: cursive;
+}
+table {
+  margin-left: auto;
+  margin-right: auto;
+  border-collapse: collapse;
+}
 .board td {
   width: 50px;
   height: 50px;
   text-align: center;
   transition: 0.5s;
+  border: 2px solid rgb(10, 10, 10);
+}
+.cell {
+  background-color: white;
+  border-radius: 5px;
+}
+
+.cell:hover {
+  background-color: rgb(243, 241, 149);
+}
+
+.cell2{
+  background-color: white;
+  border-radius: 5px;
 }
 
 .showenCells {
-  background-color: gray;
+  background-color: rgb(172, 167, 167);
+}
+
+.color1 {
+  background-color: rgb(150, 164, 228);
+}
+.color2 {
+  background-color: rgb(157, 228, 150);
+}
+.color3 {
+  background-color: rgb(221, 146, 146);
+}
+.color4 {
+  background-color: rgb(223, 156, 223);
 }
 .btn {
   text-align: center;
   display: inline;
   margin-bottom: 10px;
+  font-size: 20px;
+  background-color: transparent;
+  cursor: pointer;
+  font-family: cursive;
+  font-weight: bold;
+  border-radius: 5px;
+  border: 2px solid black;
+}
+.btn:hover{
+  transition: 0.5s;
+  background-color: white;
 }
 
 h2 {
   size: 30px;
   transition: 1s;
   opacity: 0;
+}
+
+.btnEmoji {
+  height: 35px;
+  width: 42px;
+  font-size: 19px;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.lives {
+  line-height: 40px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
+  margin-top: 2px;
+  height: 40px;
+  width: 90px;
+  text-align: center;
+  background-color:unset;
+  border-radius: 50%;
+border:2px solid black;
+  font-size: 20px;
+}
+
+.hintCrusor{
+  cursor: help;
+}
+
+.hint {
+  height: 57px;
+  width: 100px;
+  line-height: 50px;
+  cursor: pointer;
+  margin-top: auto;
+  margin-bottom: 5px;
+  font-size: 30px;
+  background-color: transparent;
+}
+
+.hintCells {
+  border: 5px solid rgb(238, 79, 79);
+}
+.safeBtn{
+  height: 57px;
+  width: 200px;
+  line-height: 58px;
+  cursor: pointer;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-size: 20px;
+  background-color: transparent;
+}
+
+.safeButton {
+  background-color: rgba(255, 49, 228, 0.602);
+  border: 15px solid black;
+}
+
+.stopWatch{
+  height: 40px;
+  width: 170px;
+  line-height: 40px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+  margin-bottom: 5px;
+  font-size: 20px;
+  background-color: white;
+  border: 2px solid black;
+  border-radius: 10px;
+  font-weight: bold;
 }
