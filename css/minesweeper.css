@@ -13,7 +13,7 @@ table {
   height: 50px;
   text-align: center;
   transition: 0.5s;
-  border: 2px solid rgb(10, 10, 10);
+  border: 2px solid rgb(0, 0, 0);
 }
 .cell {
   background-color: white;
@@ -55,7 +55,7 @@ table {
   font-family: cursive;
   font-weight: bold;
   border-radius: 5px;
-  border: 2px solid black;
+  border: 2px solid rgb(80, 71, 68);
 }
 .btn:hover{
   transition: 0.5s;

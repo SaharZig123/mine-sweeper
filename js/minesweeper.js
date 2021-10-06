@@ -37,12 +37,6 @@ function buildBoard(size, board) {
       }
     }
   }
-  getRandomMineCell(board)
-  for (var i = 0; i < board.length; i++) {
-    for (var j = 0; j < board.length; j++) {
-      board[i][j].minesAroundCount = setMineNegsCount(i, j, board)
-    }
-  }
   console.log(board)
   return board
 }
@@ -76,8 +70,8 @@ function renderBoard(board) {
 }
 
 function cellClicked(elCell, posI, posJ) {
+  if (gGame.showenCount === 0) firstClickNotMine(gboard, posI, posJ)
   if (gLives === 0 && !gGame.isOn) return
-  if (gboard[posI][posJ].isMarked) return
   if (gboard[posI][posJ].isShowen) return
   if (clickIsMine(elCell, posI, posJ)) return
   if (gboard[posI][posJ].isMarked) return
@@ -90,6 +84,7 @@ function cellClicked(elCell, posI, posJ) {
   var elEmoji = document.querySelector('.btnEmoji')
   elEmoji.innerText = '😊'
   gboard[posI][posJ].isShowen = true
+  gGame.showenCount++
   elCell.classList.remove('cell')
   elCell.classList.add('cell2')
   if (gboard[posI][posJ].minesAroundCount === 0) {
@@ -122,8 +117,12 @@ function expandShowen(board, cellI, cellJ) {
     for (var j = cellJ - 1; j <= cellJ + 1; j++) {
       if (j < 0 || j >= board[i].length) continue
       if (i === cellI && j === cellJ) continue
-      board[i][j].isShowen = true
       var elNegs = document.querySelector(`#cell-${i}-${j}`)
+      board[i][j].isShowen = true
+      if (board[i][j].isMarked) {
+        board[i][j].isMarked = false
+        elNegs.innerText = ' '
+      }
       if (board[i][j].minesAroundCount > 0) {
         elNegs.innerText = board[i][j].minesAroundCount
         cellsColor(board[i][j], elNegs)
@@ -138,12 +137,13 @@ function expandShowen(board, cellI, cellJ) {
   }
 }
 
-function getRandomMineCell(board) {
+function getRandomMineCell(board, cellI, cellJ) {
   var counter = 0
   while (counter < gLevel.mines) {
     var randomI = getRandomInt(0, board.length)
     var randomJ = getRandomInt(0, board.length)
     if (board[randomI][randomJ].isMine) continue
+    if (randomI === cellI && randomJ === cellJ) continue
     board[randomI][randomJ].isMine = true
     counter++
   }
@@ -244,6 +244,7 @@ function startNewGame() {
   elH2.innerText = ' '
   gRightMark = 0
   gMineExplode = 0
+  gGame.showenCount = 0
   buildBoard(gLevel.size, gboard)
   renderBoard(gboard)
 }
@@ -311,6 +312,10 @@ function expandForSec(board, cellI, cellJ) {
           }
           elNegs.innerText = board[i][j].minesAroundCount
         } else {
+          if (board[i][j].isMarked) {
+            elNegs.innerText = MARKED_CELL
+            continue
+          }
           elNegs.innerText = ' '
         }
       }
@@ -338,6 +343,15 @@ function safeClickButton() {
       setTimeout(() => {
         elcell.classList.remove('safeButton')
       }, 1000)
+    }
+  }
+}
+
+function firstClickNotMine(board, cellI, cellJ) {
+  getRandomMineCell(board, cellI, cellJ)
+  for (var i = 0; i < board.length; i++) {
+    for (var j = 0; j < board.length; j++) {
+      board[i][j].minesAroundCount = setMineNegsCount(i, j, board)
     }
   }
 }
