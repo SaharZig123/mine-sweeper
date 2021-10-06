@@ -11,6 +11,7 @@ var gGame = {
   isOn: false,
   showenCount: 0,
 }
+var gZeroArray = []
 var gHintCounter = 3
 var gSafeClick = 3
 var gLives = +gLevel.lives
@@ -19,6 +20,7 @@ var gMineExplode = 0
 var gRightMark = 0
 var gIsOnInterval
 var gHintMode = false
+var gGameOver = false
 
 function initGame() {
   buildBoard(gLevel.size, gboard)
@@ -75,6 +77,7 @@ function cellClicked(elCell, posI, posJ) {
   if (gboard[posI][posJ].isShowen) return
   if (clickIsMine(elCell, posI, posJ)) return
   if (gboard[posI][posJ].isMarked) return
+  if (gGameOver) return
   if (gHintMode) {
     expandForSec(gboard, posI, posJ)
     return
@@ -107,6 +110,7 @@ function checkGameOver() {
     elH2.innerText = 'Winner!'
     elH2.style.opacity = 100
     gGame.isOn = false
+    gGameOver = true
     pause()
   }
 }
@@ -232,6 +236,7 @@ function startNewGame() {
   reset()
   gHintCounter = 3
   gSafeClick = 3
+  gGameOver = false
   var elHint = document.querySelector('.hint')
   elHint.innerText = `💡X${gHintCounter}`
   var elBtn = document.querySelector('.safeBtn')
